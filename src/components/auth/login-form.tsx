@@ -3,7 +3,6 @@ import {Button} from '@/components/ui/button'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle
@@ -24,13 +23,14 @@ import {useRouter} from 'next/navigation'
 import {zodResolver} from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import React from 'react'
+import {Icons} from '@/components/icons'
 
 const FormSchema = z.object({
   email: z.string().email('Email invalide'),
   password: z.string().min(1, 'Mot de passe requis')
 })
 
-export default function AuthForm() {
+export default function LoginForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -59,10 +59,7 @@ export default function AuthForm() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account.
-        </CardDescription>
+        <CardTitle className="text-2xl">Se connecter</CardTitle>
       </CardHeader>
       <Form {...form}>
         <form
@@ -102,7 +99,12 @@ export default function AuthForm() {
             />
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Connexion</Button>
+            <Button disabled={isLoading} className="w-full">
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Connexion
+            </Button>
           </CardFooter>
         </form>
       </Form>
