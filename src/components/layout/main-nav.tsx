@@ -4,6 +4,7 @@ import Link from 'next/link'
 import {NavItem} from '@/types'
 import {siteConfig} from '@/config/site'
 import {cn} from '@/lib/utils'
+import Image from 'next/image'
 
 interface MainNavProps {
   items?: NavItem[]
@@ -13,6 +14,12 @@ export function MainNav({items}: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
+        <Image
+          src="/img/logo.svg"
+          alt={siteConfig.name}
+          width={45}
+          height={45}
+        />
         <span className="inline-block font-bold">{siteConfig.name}</span>
       </Link>
       {items?.length ? (
