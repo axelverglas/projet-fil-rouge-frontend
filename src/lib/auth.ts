@@ -16,9 +16,8 @@ async function refreshToken(token: JWT): Promise<JWT> {
   const response = await res.json()
 
   return {
-    ...token,
     ...response,
-    exp: Date.now() + 30 * 60 * 1000
+    access_token_exp: Date.now() + 30 * 60 * 1000
   }
 }
 
@@ -64,10 +63,9 @@ const authOptions: AuthOptions = {
         return {
           ...token,
           ...user,
-          exp: Date.now() + 30 * 60 * 1000
+          access_token_exp: Date.now() + 30 * 60 * 1000
         }
-
-      if (new Date().getTime() < token.exp) return token
+      if (new Date().getTime() < token.access_token_exp) return token
 
       return await refreshToken(token)
     },

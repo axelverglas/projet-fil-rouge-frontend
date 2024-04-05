@@ -1,7 +1,10 @@
 export interface User {
-  id: number
+  _id: number
   username: string
   email: string
+  avatar_url: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface NavItem {

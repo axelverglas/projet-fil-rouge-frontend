@@ -27,13 +27,22 @@ export function UserNav({currentUser}: UserNavProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <div className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
-            <Image
-              src="/img/placeholder.jpeg"
-              alt="Avatar"
-              className="aspect-square h-full w-full"
-              width={32}
-              height={32}
-            />
+            {currentUser.avatar_url ? (
+              <Image
+                src={currentUser.avatar_url}
+                alt={currentUser.username}
+                width={60}
+                height={60}
+              />
+            ) : (
+              <Image
+                src="/img/placeholder.jpeg"
+                alt="Avatar"
+                className="aspect-square h-full w-full"
+                width={32}
+                height={32}
+              />
+            )}
 
             <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
               {initial}
