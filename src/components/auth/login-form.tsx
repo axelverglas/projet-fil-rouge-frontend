@@ -48,12 +48,15 @@ export default function LoginForm() {
       password
     })
 
+    setIsLoading(false)
+
     if (result?.error) {
-      setIsLoading(false)
       toast.error(result.error)
-    } else {
+    } else if (result?.ok) {
       toast.success('Connexion réussie')
       router.refresh()
+    } else {
+      toast.error("Une erreur inconnue s'est produite")
     }
   }
 

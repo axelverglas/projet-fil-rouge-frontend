@@ -7,6 +7,7 @@ import ToasterProvider from '@/providers/toast-provider'
 import {ThemeProvider} from '@/providers/theme-provider'
 import {SiteHeader} from '@/components/layout/site-header'
 import SiteFooter from '@/components/layout/site-footer'
+import {QueryProvider} from '@/providers/query-provider'
 
 export const metadata: Metadata = {
   title: 'Games APP',
@@ -28,12 +29,14 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ToasterProvider />
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-              <SiteFooter />
-            </div>
+            <QueryProvider>
+              <ToasterProvider />
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <div className="flex-1">{children}</div>
+                <SiteFooter />
+              </div>
+            </QueryProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>
