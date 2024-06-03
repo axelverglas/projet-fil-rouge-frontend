@@ -4,6 +4,7 @@ import socket from '@/lib/socket'
 import {useRouter} from 'next/navigation'
 import {QueueResponse, User} from '../types'
 import {post} from '@/lib/api'
+import toast from 'react-hot-toast'
 
 export default function Games({user}: {user: User | null}) {
   const router = useRouter()
@@ -38,7 +39,7 @@ export default function Games({user}: {user: User | null}) {
         router.push(`/games/tictactoe/${data.game_id}`)
       } else {
         setIsSearching(true)
-        alert('Added to queue, waiting for opponent')
+        toast.success("En attente d'un adversaire...")
       }
     } catch (err) {
       console.error(err)

@@ -30,3 +30,9 @@ export interface QueueResponse {
   opponent_id?: string
   message?: string
 }
+
+export interface Friends {
+  creatorId: string
+  receiverId: string
+  status: string
+}

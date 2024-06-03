@@ -8,10 +8,11 @@ import {ThemeProvider} from '@/providers/theme-provider'
 import {SiteHeader} from '@/components/layout/site-header'
 import SiteFooter from '@/components/layout/site-footer'
 import {QueryProvider} from '@/providers/query-provider'
+import {siteConfig} from '@/config/site'
 
 export const metadata: Metadata = {
-  title: 'Games APP',
-  description: 'A simple games app'
+  title: siteConfig.name,
+  description: siteConfig.description
 }
 
 export default function RootLayout({

@@ -1,34 +1,38 @@
 'use client'
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import socket from '@/lib/socket'
-import {useGame} from '@/hooks/use-game'
-import {useQueryClient} from 'react-query'
+import {useQuery, useQueryClient} from '@tanstack/react-query'
 import {Game, User} from '@/types'
-import {useParams} from 'next/navigation'
-import {Skeleton} from '@/components/ui/skeleton'
+import {useGame} from '@/hooks/use-game'
 
-export default function TicTacToe({user}: {user: User | null}) {
-  const params = useParams<{gameId: string}>()
-  const gameId = params.gameId
-  const {data: game, error} = useGame(gameId)
+interface TicTacToeProps {
+  user: User | null
+  id: string
+}
+
+export default function TicTacToe({user, id}: TicTacToeProps) {
   const queryClient = useQueryClient()
-  const [progress, setProgress] = useState(0)
+  const {
+    data: game,
+    error,
+    isLoading: isGameLoading
+  } = useQuery(useGame({gameId: id}))
 
   useEffect(() => {
-    if (gameId !== 'None') {
-      socket.emit('join_game', {user_id: user?._id, game_id: gameId})
+    if (game?._id && user?._id) {
+      socket.emit('join_game', {user_id: user._id, game_id: game._id})
 
-      socket.on(
-        'game_start',
-        (data: {game_id: string; opponent_id: string}) => {
-          console.log('Game started:', data)
-          queryClient.invalidateQueries(['game', gameId])
-        }
-      )
+      socket.on('game_start', (data: {game_id: string}) => {
+        console.log('Le jeu a commencé :', data)
+        queryClient.invalidateQueries({queryKey: ['games', game._id]})
+      })
 
       socket.on('game_update', (updatedGame: Game) => {
-        console.log('Game updated:', updatedGame)
-        queryClient.setQueryData(['game', gameId], updatedGame)
+        console.log('Jeu mis à jour :', updatedGame)
+        queryClient.setQueryData(['games', game._id], {
+          ...game,
+          ...updatedGame
+        })
       })
 
       return () => {
@@ -36,27 +40,15 @@ export default function TicTacToe({user}: {user: User | null}) {
         socket.off('game_update')
       }
     }
-  }, [gameId, user?._id, queryClient])
+  }, [game, user?._id, queryClient])
 
-  useEffect(() => {
-    if (!game) {
-      const interval = setInterval(() => {
-        setProgress((oldProgress) => {
-          if (oldProgress === 100) {
-            clearInterval(interval)
-            return 100
-          }
-          return oldProgress + 10
-        })
-      }, 500)
-      return () => {
-        clearInterval(interval)
-      }
-    }
-  }, [game])
+  if (error) return <div>Échec du chargement</div>
+
+  if (!user || isGameLoading) {
+    return <div>Chargement...</div>
+  }
 
   const makeMove = (index: number) => {
-    console.log('Attempting to make a move:', index)
     if (
       game &&
       (game.board[index] !== '' ||
@@ -66,70 +58,57 @@ export default function TicTacToe({user}: {user: User | null}) {
       return
 
     socket.emit('make_move', {
-      game_id: gameId,
+      game_id: game?._id,
       move: index,
       player_id: user?._id
     })
   }
 
-  if (error)
-    return <div className="text-center text-red-500">Failed to fetch game</div>
-
-  if (!game)
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p className="text-xl font-semibold">Chargement du jeu</p>
-      </div>
-    )
-
-  if (game.state === 'waiting')
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p className="text-xl font-semibold">Waiting for an opponent...</p>
-      </div>
-    )
-
   return (
-    <div className="mt-10 flex flex-col items-center">
-      <div className="grid grid-cols-3 gap-2">
-        {game.board.map((cell, index) => (
+    <div className="flex gap-4">
+      <div className="grid max-w-3xl grid-cols-3 gap-1">
+        {game?.board.map((cell, index) => (
           <button
             key={index}
             onClick={() => makeMove(index)}
-            className="flex h-24 w-24 items-center justify-center border border-gray-300 text-3xl font-bold"
+            className="flex h-28 w-28 items-center justify-center rounded-xl border border-gray-300 text-4xl font-bold sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-40 lg:w-40"
             disabled={cell !== '' || game.state === 'finished'}
           >
             {cell}
           </button>
         ))}
       </div>
-      {game.state === 'finished' && game.winner && (
-        <div className="mt-5 text-center">
-          <h2 className="text-2xl font-bold">Game Over!</h2>
-          <p className="text-lg">
-            {game.winner === user?._id
-              ? 'Congratulations! You won!'
-              : 'You lost. Better luck next time!'}
-          </p>
-        </div>
-      )}
-      <div className="mt-3 text-lg">
-        Current Turn:{' '}
-        <span className="font-semibold">
-          {game.current_turn === user?._id ? 'Your turn' : "Opponent's turn"}
-        </span>
-      </div>
-      <div className="mt-1 text-lg">
-        Status: <span className="font-semibold">{game.state}</span>
-      </div>
-      {game.winner && (
-        <div className="mt-1 text-lg">
-          Winner:{' '}
+      <div>
+        {game?.state === 'finished' && game.winner && (
+          <div>
+            <h2 className="text-2xl font-bold">Partie terminée !</h2>
+            <p className="text-lg">
+              {game?.winner === user?._id
+                ? 'Félicitations ! Vous avez gagné !'
+                : 'Vous avez perdu. Bonne chance la prochaine fois !'}
+            </p>
+          </div>
+        )}
+        <p className="text-lg">
+          Tour actuel :{' '}
           <span className="font-semibold">
-            {game.winner === user?._id ? 'You' : 'Opponent'}
+            {game?.current_turn === user?._id
+              ? 'Votre tour'
+              : "Tour de l'adversaire"}
           </span>
-        </div>
-      )}
+        </p>
+        <p className="text-lg">
+          Statut : <span className="font-semibold">{game?.state}</span>
+        </p>
+        {game?.winner && (
+          <p className="text-lg">
+            Gagnant :{' '}
+            <span className="font-semibold">
+              {game.winner === user?._id ? 'Vous' : 'Adversaire'}
+            </span>
+          </p>
+        )}
+      </div>
     </div>
   )
 }
