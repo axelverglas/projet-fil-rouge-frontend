@@ -36,3 +36,8 @@ export interface Friends {
   receiverId: string
   status: string
 }
+
+export interface FriendshipRequest {
+  request: Friends
+  user: User
+}

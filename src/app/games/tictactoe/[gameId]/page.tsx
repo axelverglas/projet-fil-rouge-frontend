@@ -2,7 +2,7 @@ import getCurrentUser from '@/actions/get-current-user'
 import {getOpponent} from '@/actions/get-game'
 import AddFriends from '@/components/games/addFriends/add-friends'
 import Section from '@/components/layout/section'
-import TicTacToe from '@/components/tictactoe'
+import TicTacToe from '@/components/games/tictactoe'
 import {useGame} from '@/hooks/use-game'
 import {HydrationBoundary, QueryClient, dehydrate} from '@tanstack/react-query'
 

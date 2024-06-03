@@ -2,7 +2,7 @@
 import {useEffect, useState} from 'react'
 import socket from '@/lib/socket'
 import {useRouter} from 'next/navigation'
-import {QueueResponse, User} from '../types'
+import {QueueResponse, User} from '../../types'
 import {post} from '@/lib/api'
 import toast from 'react-hot-toast'
 
