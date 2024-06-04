@@ -69,6 +69,7 @@ export function UserNav({currentUser}: UserNavProps) {
         <DropdownMenuItem>
           <Link href="/profil/friends">Amis</Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           Se déconnecter
         </DropdownMenuItem>

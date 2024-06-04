@@ -3,8 +3,8 @@ export interface User {
   username: string
   email: string
   avatar_url: string
-  createdAt: string
-  updatedAt: string
+  created_at: string
+  updated_at: string
 }
 
 export interface NavItem {
@@ -32,9 +32,11 @@ export interface QueueResponse {
 }
 
 export interface Friends {
-  creatorId: string
-  receiverId: string
+  _id: string
+  creator_id: string
+  receiver_id: string
   status: string
+  user?: User
 }
 
 export interface FriendshipRequest {

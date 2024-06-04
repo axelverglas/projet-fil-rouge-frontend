@@ -36,6 +36,9 @@ export async function put<T>(
   return api.put(path, {json: body}).json()
 }
 
-export async function del<T>(path: string): Promise<T> {
-  return api.delete(path).json()
+export async function del<T>(
+  path: string,
+  body: Record<string, unknown>
+): Promise<T> {
+  return api.delete(path, {json: body}).json()
 }

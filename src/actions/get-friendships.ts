@@ -1,5 +1,10 @@
 import {get} from '@/lib/api'
-import {FriendshipRequest} from '@/types'
+import {Friends, FriendshipRequest} from '@/types'
+
+export const getFriends = async (userId: string): Promise<Friends[]> => {
+  const response = await get<Friends[]>(`friendships/${userId}/friends`)
+  return response
+}
 
 export const getSentRequests = async (
   userId: string
