@@ -1,5 +1,6 @@
 import {User} from '@/types'
 import getSession from './get-session'
+import {get} from '@/lib/api'
 
 export default async function getCurrentUser() {
   try {
@@ -9,20 +10,14 @@ export default async function getCurrentUser() {
       return null
     }
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/${session.user._id}`,
-      {
-        method: 'GET'
-      }
-    )
-    const currentUser = await response.json()
+    const currentUser = await get<User>(`user/${session.user._id}`)
 
     if (!currentUser) {
       return null
     }
 
-    return currentUser as User
-  } catch (error: any) {
+    return currentUser
+  } catch (error) {
     return null
   }
 }

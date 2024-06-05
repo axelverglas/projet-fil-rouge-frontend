@@ -1,12 +1,17 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: 'Game APP',
-  description: 'A simple games app',
+  name: 'Play Sphere',
+  description:
+    'PlaySphere est votre plateforme de jeux ultime, offrant une large variété de jeux en ligne et une expérience multijoueur fluide. Rejoignez-nous dès maintenant pour vous connecter, rivaliser et profiter du meilleur du divertissement de jeu.',
   mainNav: [
     {
-      title: 'Home',
+      title: 'Accueil',
       href: '/'
+    },
+    {
+      title: 'Jeux',
+      href: '/games'
     }
   ]
 }

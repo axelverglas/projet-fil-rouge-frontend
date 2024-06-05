@@ -11,6 +11,7 @@ import {
 import {User} from '@/types'
 import {signOut} from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface UserNavProps {
   currentUser: User
@@ -61,6 +62,16 @@ export function UserNav({currentUser}: UserNavProps) {
             </p>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Link href={`/profil/${currentUser.username}`}>Profil</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/profil/edit`}>Paramètres</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/profil/friends">Amis</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           Se déconnecter

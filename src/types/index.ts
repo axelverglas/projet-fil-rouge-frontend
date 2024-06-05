@@ -1,10 +1,10 @@
 export interface User {
-  _id: number
+  _id: string
   username: string
   email: string
   avatar_url: string
-  createdAt: string
-  updatedAt: string
+  created_at: string
+  updated_at: string
 }
 
 export interface NavItem {
@@ -12,4 +12,34 @@ export interface NavItem {
   href?: string
   disabled?: boolean
   external?: boolean
+}
+
+export interface Game {
+  _id: string
+  player1_id: string
+  player2_id: string
+  board: string[]
+  current_turn: string
+  state: string
+  game_type: string
+  winner?: string
+}
+
+export interface QueueResponse {
+  game_id?: string
+  opponent_id?: string
+  message?: string
+}
+
+export interface Friends {
+  _id: string
+  creator_id: string
+  receiver_id: string
+  status: string
+  user?: User
+}
+
+export interface FriendshipRequest {
+  request: Friends
+  user: User
 }

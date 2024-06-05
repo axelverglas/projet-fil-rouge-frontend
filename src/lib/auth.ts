@@ -44,8 +44,8 @@ const authOptions: AuthOptions = {
 
         const data = await response.json()
 
-        if (data.error) {
-          throw new Error(data.message)
+        if (!response.ok) {
+          throw new Error(data.error)
         }
 
         return data

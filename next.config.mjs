@@ -8,6 +8,9 @@ const nextConfig = {
         hostname: 'projetfilrouge.s3.amazonaws.com'
       }
     ]
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
   }
 }
 
