@@ -60,7 +60,7 @@ export default function Friends({friends}: {friends: FriendsType[]}) {
                         receiverId: friend.receiver_id
                       })
                     }}
-                    className="absolute -right-2 top-0 cursor-pointer rounded-full p-2 opacity-90 hover:opacity-100"
+                    className="absolute -right-2 top-0 cursor-pointer rounded-full p-2"
                   >
                     <Trash className="h-5 w-6" />
                   </Button>

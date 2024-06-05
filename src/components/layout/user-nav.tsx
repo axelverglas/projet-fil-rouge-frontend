@@ -64,7 +64,10 @@ export function UserNav({currentUser}: UserNavProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/profil">Profil</Link>
+          <Link href={`/profil/${currentUser.username}`}>Profil</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/profil/edit`}>Paramètres</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Link href="/profil/friends">Amis</Link>

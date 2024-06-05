@@ -5,12 +5,8 @@ import {
   getFriends
 } from '@/actions/get-friendships'
 import FriendsRequests from './components/friends-requests'
-import Section from '@/components/layout/section'
-import Image from 'next/image'
-import {Trash} from 'lucide-react'
-import {Button} from '@/components/ui/button'
-import {deleteFriend} from './friends.action'
 import Friends from './components/friends'
+import {getSession} from 'next-auth/react'
 
 export default async function Page() {
   const user = await getCurrentUser()

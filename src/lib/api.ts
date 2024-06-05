@@ -3,7 +3,7 @@
 import getSession from '@/actions/get-session'
 import ky from 'ky'
 
-const api = ky.extend({
+export const api = ky.extend({
   prefixUrl: process.env.NEXT_PUBLIC_API_URL,
   hooks: {
     beforeRequest: [
