@@ -6,7 +6,6 @@ import {
 } from '@/actions/get-friendships'
 import FriendsRequests from './components/friends-requests'
 import Friends from './components/friends'
-import {getSession} from 'next-auth/react'
 
 export default async function Page() {
   const user = await getCurrentUser()
