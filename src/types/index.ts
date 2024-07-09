@@ -18,7 +18,7 @@ export interface Game {
   _id: string
   player1_id: string
   player2_id: string
-  board: string[]
+  board: string[][]
   current_turn: string
   state: string
   game_type: string

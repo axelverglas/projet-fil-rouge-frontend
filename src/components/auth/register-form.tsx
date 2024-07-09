@@ -123,9 +123,9 @@ export default function LoginForm() {
               Inscription
             </Button>
             <div className="text-center text-sm">
-              Vous n&apos;avez pas de compte ?{' '}
+              Vous avez déjà un compte ?{' '}
               <Link href="/auth/register" className="underline">
-                S&apos;inscrire
+                Se connecter
               </Link>
             </div>
           </CardContent>

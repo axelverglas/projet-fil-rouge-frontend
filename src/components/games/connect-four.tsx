@@ -9,18 +9,18 @@ import {put} from '@/lib/api'
 import toast from 'react-hot-toast'
 import {Button} from '../ui/button'
 
-interface TicTacToeProps {
+interface ConnectFourProps {
   user: User | null
   id: string
 }
 
-export default function TicTacToe({user, id}: TicTacToeProps) {
+export default function ConnectFour({user, id}: ConnectFourProps) {
   const queryClient = useQueryClient()
   const {
     data: game,
     error,
     isLoading: isGameLoading
-  } = useQuery(useGame({gameId: id, gameType: 'tictactoe'}))
+  } = useQuery(useGame({gameId: id, gameType: 'connectfour'}))
 
   const pauseGameMutation = useMutation({
     mutationFn: async () => {
@@ -29,7 +29,7 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
     onSuccess: () => {
       toast.success('Game paused')
       queryClient.invalidateQueries({
-        queryKey: ['games', 'tictactoe', game?._id]
+        queryKey: ['games', 'connectfour', game?._id]
       })
     },
     onError: () => {
@@ -44,7 +44,7 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
     onSuccess: () => {
       toast.success('Game finished')
       queryClient.invalidateQueries({
-        queryKey: ['games', 'tictactoe', game?._id]
+        queryKey: ['games', 'connectfour', game?._id]
       })
     },
     onError: () => {
@@ -64,13 +64,16 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
       socket.on('game_start', (data: {game_id: string}) => {
         console.log('Le jeu a commencé :', data)
         queryClient.invalidateQueries({
-          queryKey: ['games', 'tictactoe', game._id]
+          queryKey: ['games', 'connectfour', game._id]
         })
       })
 
       socket.on('game_update', (updatedGame: Game) => {
         console.log('Jeu mis à jour :', updatedGame)
-        queryClient.setQueryData(['games', 'tictactoe', game._id], updatedGame)
+        queryClient.setQueryData(
+          ['games', 'connectfour', game._id],
+          updatedGame
+        )
       })
 
       return () => {
@@ -86,37 +89,35 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
     return <div>Chargement...</div>
   }
 
-  const makeMove = (index: number) => {
-    if (
-      game &&
-      game.board[index].length === 0 &&
-      game.current_turn === user?._id &&
-      game.state !== 'finished'
-    ) {
-      socket.emit('make_move', {
-        game_id: game?._id,
-        move: index,
-        player_id: user?._id,
-        game_type: game?.game_type
-      })
-    }
+  const makeMove = (column: number) => {
+    if (game && (game.state === 'finished' || game.current_turn !== user?._id))
+      return
+
+    socket.emit('make_move', {
+      game_id: game?._id,
+      move: column,
+      player_id: user?._id,
+      game_type: game?.game_type
+    })
   }
 
   return (
     <div className="flex gap-4">
-      <div className="grid max-w-3xl grid-cols-3 gap-1">
-        {game?.board.map((cell, index) => (
-          <button
-            key={index}
-            onClick={() => makeMove(index)}
-            className="flex h-28 w-28 items-center justify-center rounded-xl border border-gray-300 text-4xl font-bold sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-40 lg:w-40"
-            disabled={cell.length !== 0 || game.state === 'finished'}
-          >
-            {cell}
-          </button>
-        ))}
+      <div className="grid max-w-3xl grid-cols-7 gap-1">
+        {game?.board.flatMap((row, rowIndex) =>
+          row.map((cell, colIndex) => (
+            <button
+              key={`${rowIndex}-${colIndex}`}
+              onClick={() => makeMove(colIndex)}
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-gray-300 text-2xl font-bold"
+              disabled={game.state === 'finished'}
+            >
+              {cell}
+            </button>
+          ))
+        )}
       </div>
-      <div className="flex flex-col gap-2">
+      <div>
         {game?.state === 'finished' && game.winner && (
           <div>
             <h2 className="text-2xl font-bold">Partie terminée !</h2>

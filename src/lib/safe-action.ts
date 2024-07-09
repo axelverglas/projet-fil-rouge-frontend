@@ -1,5 +1,4 @@
 import getCurrentUser from '@/actions/get-current-user'
-import getSession from '@/actions/get-session'
 import {createSafeActionClient} from 'next-safe-action'
 
 class ActionError extends Error {

@@ -1,17 +1,21 @@
 import {get} from '@/lib/api'
 import {Game, User} from '@/types'
 
-export const getGame = async (gameId: string): Promise<Game> => {
-  const response = await get<Game>(`games/tictactoe/${gameId}`)
+export const getGame = async (
+  gameId: string,
+  gameType: string
+): Promise<Game> => {
+  const response = await get<Game>(`games/${gameType}/${gameId}`)
   return response
 }
 
 export const getOpponent = async (
-  user_id: string,
-  gameId: string
+  userId: string,
+  gameId: string,
+  gameType: string
 ): Promise<User> => {
-  const response = await get<User>(`games/${gameId}/opponent`, {
-    user_id: user_id
+  const response = await get<User>(`games/${gameType}/${gameId}/opponent`, {
+    user_id: userId
   })
   return response
 }
