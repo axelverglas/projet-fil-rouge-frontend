@@ -7,6 +7,7 @@ import Link from 'next/link'
 import {cn} from '@/lib/utils'
 import {buttonVariants} from '../ui/button'
 import {MobileNav} from './mobile-nav'
+import {NotifNav} from './notif-nav'
 
 export async function SiteHeader() {
   const user = await getCurrentUser()
@@ -15,10 +16,13 @@ export async function SiteHeader() {
       <div className="container flex h-16 items-center sm:justify-between sm:space-x-0 md:space-x-4">
         <MainNav items={siteConfig.mainNav} />
         <MobileNav />
-        <div className="flex flex-1 items-center justify-end space-x-2">
+        <div className="flex flex-1 items-center justify-end">
+          {user && <NotifNav user={user} />}
           <ThemeToggle />
           {user ? (
-            <UserNav currentUser={user} />
+            <>
+              <UserNav currentUser={user} />
+            </>
           ) : (
             <Link
               href="/auth/login"

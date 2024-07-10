@@ -1,5 +1,5 @@
 import {get} from '@/lib/api'
-import {Friends, FriendshipRequest} from '@/types'
+import {FriendshipRequest} from '@/types'
 
 export const getFriends = async (userId: string): Promise<any[]> => {
   const response = await get<any[]>(`friendships/${userId}/friends`)

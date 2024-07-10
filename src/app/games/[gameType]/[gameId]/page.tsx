@@ -5,7 +5,8 @@ import Section from '@/components/layout/section'
 import TicTacToe from '@/components/games/tictactoe'
 import ConnectFour from '@/components/games/connect-four'
 import {useGame} from '@/hooks/use-game'
-import {HydrationBoundary, QueryClient, dehydrate} from '@tanstack/react-query'
+import {HydrationBoundary, dehydrate} from '@tanstack/react-query'
+import queryClient from '@/lib/query-client'
 
 export default async function Page({
   params
@@ -13,7 +14,6 @@ export default async function Page({
   params: {gameId: string; gameType: string}
 }) {
   const user = await getCurrentUser()
-  const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery(
     useGame({gameId: params.gameId, gameType: params.gameType})

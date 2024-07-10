@@ -43,3 +43,34 @@ export interface FriendshipRequest {
   request: Friends
   user: User
 }
+
+export interface Message {
+  _id: string
+  sender_id: string
+  receiver_id: string
+  content: string
+  created_at: string
+  conversation_id: string
+}
+
+export interface Conversation {
+  _id: string
+  user1_id: string
+  user2_id: string
+  messages: Message[]
+}
+
+export interface Friend {
+  _id: string
+  user: User
+  status: string
+}
+
+export interface Notification {
+  _id: string
+  userId: string
+  content: string
+  notif_type: string
+  createdAt: string
+  read: boolean
+}

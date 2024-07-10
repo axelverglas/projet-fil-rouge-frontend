@@ -1,13 +1,15 @@
 'use client'
-import {Button} from '@/components/ui/button'
+import {Button, buttonVariants} from '@/components/ui/button'
 import Section from '@/components/layout/section'
 import Image from 'next/image'
-import {Trash} from 'lucide-react'
+import {Trash, MessageSquare} from 'lucide-react'
 import {deleteFriend} from '../friends.action'
 import {Friends as FriendsType} from '@/types'
 import toast from 'react-hot-toast'
 import {DeleteFriendType} from '../friend.schema'
 import {useMutation} from '@tanstack/react-query'
+import Link from 'next/link'
+import {cn} from '@/lib/utils'
 
 export default function Friends({friends}: {friends: FriendsType[]}) {
   const deleteFriendMutation = useMutation({
@@ -17,10 +19,10 @@ export default function Friends({friends}: {friends: FriendsType[]}) {
         toast.error(serverError)
         return
       }
-
       toast.success('Friend deleted!')
     }
   })
+
   return (
     <Section>
       <div className="container flex flex-col gap-4">
@@ -66,6 +68,12 @@ export default function Friends({friends}: {friends: FriendsType[]}) {
                   </Button>
                 </div>
                 <h3 className="font-bold">{friend.user?.username}</h3>
+                <Link
+                  href={`/chat/${friend.user?._id}`}
+                  className={cn(buttonVariants({variant: 'default'}), 'mt-2')}
+                >
+                  <MessageSquare className="mr-2 h-5 w-6" /> Chat
+                </Link>
               </div>
             ))}
           </div>

@@ -26,7 +26,7 @@ export function UserNav({currentUser}: UserNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+        <Button variant="ghost" className="relative ml-2 h-8 w-8 rounded-full">
           <div className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
             {currentUser.avatar_url ? (
               <Image
