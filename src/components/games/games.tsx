@@ -43,7 +43,6 @@ export default function Games({user}: {user: User | null}) {
 
   const handlePlay = async (gameType: string) => {
     if (!user) {
-      toast.error('Vous devez être connecté pour jouer.')
       router.push('/auth/login')
       return
     }
