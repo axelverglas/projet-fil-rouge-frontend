@@ -7,5 +7,10 @@ export default withAuth({
 })
 
 export const config = {
-  matcher: ['/', '/settings/:path*', '/profil/:path*', '/api/:path*']
+  matcher: [
+    '/settings/:path*',
+    '/profil/:path*',
+    '/api/:path*',
+    '/chat/:path*, /games/:path*'
+  ]
 }
