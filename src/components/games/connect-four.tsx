@@ -1,5 +1,4 @@
 'use client'
-
 import {useEffect} from 'react'
 import socket from '@/lib/socket'
 import {useQuery, useMutation} from '@tanstack/react-query'
@@ -109,7 +108,7 @@ export default function ConnectFour({user, id}: ConnectFourProps) {
       : "J'ai perdu, mais c'était un jeu incroyable !"
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col gap-4 lg:flex-row">
       <div className="grid max-w-3xl grid-cols-7 gap-1">
         {game?.board.flatMap((row, rowIndex) =>
           row.map((cell, colIndex) => (
@@ -124,7 +123,7 @@ export default function ConnectFour({user, id}: ConnectFourProps) {
           ))
         )}
       </div>
-      <div>
+      <div className="mt-4 flex flex-col gap-2 lg:mt-0">
         {game?.state === 'finished' && game.winner && (
           <div>
             <h2 className="text-2xl font-bold">Partie terminée !</h2>
