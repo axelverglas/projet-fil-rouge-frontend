@@ -5,6 +5,7 @@ import Games from '@/components/games/games'
 import {Button, buttonVariants} from '@/components/ui/button'
 import Link from 'next/link'
 import {cn} from '@/lib/utils'
+import {siteConfig} from '@/config/site'
 
 export default async function Page() {
   const user = await getCurrentUser()
@@ -12,7 +13,7 @@ export default async function Page() {
     <>
       <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 py-20">
         <div className="container flex flex-col gap-4">
-          <h1 className="text-5xl font-bold text-white">PlaySphere</h1>
+          <h1 className="text-5xl font-bold text-white">{siteConfig.name}</h1>
           <p className="text-3xl text-gray-200">
             Rejoignez la plateforme de jeux ultime et vivez des expériences
             inoubliables.
