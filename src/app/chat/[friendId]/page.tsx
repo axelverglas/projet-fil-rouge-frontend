@@ -11,6 +11,7 @@ export default async function Page({params}: {params: {friendId: string}}) {
   const friend = await getUserById(params.friendId)
   if (!friend) return null
   await queryClient.prefetchQuery(
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useConversation({user1Id: currentUser._id, user2Id: friend._id})
   )
   return (
