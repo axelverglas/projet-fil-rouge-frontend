@@ -2,7 +2,7 @@
 
 import {useEffect} from 'react'
 import socket from '@/lib/socket'
-import {useQuery, useQueryClient, useMutation} from '@tanstack/react-query'
+import {useQuery, useMutation} from '@tanstack/react-query'
 import {Game, User} from '@/types'
 import {useGame} from '@/hooks/use-game'
 import {put} from '@/lib/api'
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import {Button} from '../ui/button'
 import {FacebookIcon, TwitterIcon} from 'lucide-react'
 import {shareOnFacebook, shareOnTwitter} from '@/lib/share'
+import queryClient from '@/lib/query-client'
 
 interface TicTacToeProps {
   user: User | null
@@ -17,7 +18,6 @@ interface TicTacToeProps {
 }
 
 export default function TicTacToe({user, id}: TicTacToeProps) {
-  const queryClient = useQueryClient()
   const {
     data: game,
     error,
