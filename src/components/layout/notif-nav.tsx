@@ -74,7 +74,7 @@ export function NotifNav({user}: {user: User}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="ml-2">
+        <Button variant="ghost" size="icon" className="relative ml-2">
           <BellIcon className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
