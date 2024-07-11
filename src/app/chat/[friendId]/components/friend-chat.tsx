@@ -39,7 +39,7 @@ const FriendsChat: React.FC<FriendsChatProps> = ({user, friend}) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['conversation', user._id, friend._id]
+        queryKey: ['conversation', user._id, friend._id, 'notifications']
       })
       refetchConversation()
     }
@@ -57,7 +57,7 @@ const FriendsChat: React.FC<FriendsChatProps> = ({user, friend}) => {
           })
         )
         queryClient.invalidateQueries({
-          queryKey: ['conversation', user._id, friend._id]
+          queryKey: ['conversation', user._id, friend._id, 'notifications']
         })
       })
 

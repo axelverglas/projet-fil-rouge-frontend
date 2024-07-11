@@ -22,8 +22,10 @@ import {
 } from './notification/notification.action'
 import toast from 'react-hot-toast'
 import queryClient from '@/lib/query-client'
+import {useRouter} from 'next/navigation'
 
 export function NotifNav({user}: {user: User}) {
+  const router = useRouter()
   const {data: notifications = []} = useQuery(
     useNotifications({userId: user._id})
   )
@@ -59,6 +61,16 @@ export function NotifNav({user}: {user: User}) {
       })
     }
   })
+
+  const handleNotificationClick = async (notification: Notification) => {
+    if (!notification.read) {
+      markAsRead.mutate({notifId: notification._id})
+    }
+    if (notification.notif_type === 'chat') {
+      await router.push(`/chat/${notification.sender_id}`)
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -72,9 +84,7 @@ export function NotifNav({user}: {user: User}) {
             <DropdownMenuItem
               key={notification._id}
               className={`flex items-center ${notification.read ? 'opacity-50' : ''}`}
-              onClick={async () => {
-                markAsRead.mutate({notifId: notification._id})
-              }}
+              onClick={() => handleNotificationClick(notification)}
             >
               {notification.read ? (
                 <CheckCircleIcon className="mr-2 h-4 text-gray-400" />
@@ -82,7 +92,7 @@ export function NotifNav({user}: {user: User}) {
                 <CircleIcon className="text- mr-2 h-4 text-foreground" />
               )}
               {notification.notif_type === 'chat' ? (
-                <span>{notification.content}</span>
+                <span className="cursor-pointer">{notification.content}</span>
               ) : (
                 <span>{notification.content}</span>
               )}

@@ -68,7 +68,8 @@ export interface Friend {
 
 export interface Notification {
   _id: string
-  userId: string
+  user_id: string
+  sender_id: string
   content: string
   notif_type: string
   createdAt: string

@@ -8,6 +8,8 @@ import {useGame} from '@/hooks/use-game'
 import {put} from '@/lib/api'
 import toast from 'react-hot-toast'
 import {Button} from '../ui/button'
+import {FacebookIcon, TwitterIcon} from 'lucide-react'
+import {shareOnFacebook, shareOnTwitter} from '@/lib/share'
 
 interface TicTacToeProps {
   user: User | null
@@ -102,6 +104,11 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
     }
   }
 
+  const shareMessage =
+    game?.winner === user?._id
+      ? "J'ai gagné à ce jeu incroyable !"
+      : "J'ai perdu, mais c'était un jeu incroyable !"
+
   return (
     <div className="flex gap-4">
       <div className="grid max-w-3xl grid-cols-3 gap-1">
@@ -125,6 +132,17 @@ export default function TicTacToe({user, id}: TicTacToeProps) {
                 ? 'Félicitations ! Vous avez gagné !'
                 : 'Vous avez perdu. Bonne chance la prochaine fois !'}
             </p>
+            <div className="flex flex-col gap-2">
+              <p>Partager sur :</p>
+              <div className="flex gap-2">
+                <Button onClick={() => shareOnFacebook(shareMessage)}>
+                  <FacebookIcon />
+                </Button>
+                <Button onClick={() => shareOnTwitter(shareMessage)}>
+                  <TwitterIcon />
+                </Button>
+              </div>
+            </div>
           </div>
         )}
         <p className="text-lg">
