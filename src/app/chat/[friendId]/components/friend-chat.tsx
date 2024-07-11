@@ -28,7 +28,7 @@ const FriendsChat: React.FC<FriendsChatProps> = ({user, friend}) => {
   )
 
   const sendMessageMutation = useMutation({
-    mutationFn: async (values: Partial<SendMessageType>) => {
+    mutationFn: async (values: SendMessageType) => {
       const {serverError} = await sendMessageAction(values)
       if (serverError) {
         toast.error(serverError)
@@ -73,7 +73,7 @@ const FriendsChat: React.FC<FriendsChatProps> = ({user, friend}) => {
         sender_id: user._id,
         receiver_id: friend._id,
         content: message,
-        conversation_id: conversation?._id
+        conversation_id: conversation?._id as string
       })
       setMessage('')
     }
