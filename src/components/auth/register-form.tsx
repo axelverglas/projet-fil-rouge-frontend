@@ -42,7 +42,7 @@ export default function LoginForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true)
     const {username, email, password} = data
-    const res = await fetch(`http://127.0.0.1:5000/api/v1/user`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({username, email, password})
